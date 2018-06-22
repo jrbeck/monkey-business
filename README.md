@@ -25,7 +25,7 @@ s: SHOOT,OK || SHOOT,FAIL
 c: SPEED,FAST
 c: SPEED,SLOW
 
-RETRY
+RESET
 QUIT
 
 server states:

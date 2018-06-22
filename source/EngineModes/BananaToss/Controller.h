@@ -11,8 +11,8 @@
 #define PHYSICS_TICKS (17) // in milliseconds
 #define DELTA_TIME (PHYSICS_TICKS / TICKS_PER_SECOND)
 
-// #define GRAVITY (-9.8)
-#define GRAVITY (0.0)
+#define GRAVITY (-9.8)
+// #define GRAVITY (0.0)
 
 #define TOKEN_QUIT "QUIT"
 #define TOKEN_RESET "RESET"

@@ -40,10 +40,10 @@ namespace BananaToss {
 
   void Controller::placeTarget(Target* target) {
     target->active = true;
-    target->pos.x = mState->mPseudoRandom->nextDouble(250, 490);
-    target->pos.y = mState->mPseudoRandom->nextDouble(50, 300);
-    target->dimensions.x = 50.0;
-    target->dimensions.y = 50.0;
+    target->pos.x = mState->mPseudoRandom->nextDouble(50, 500);
+    target->pos.y = mState->mPseudoRandom->nextDouble(50, 500);
+    target->dimensions.x = 10.0;
+    target->dimensions.y = 10.0;
   }
 
   int Controller::update() {
@@ -111,6 +111,7 @@ namespace BananaToss {
       if (mMode == MODE_WAITING_FOR_CLIENT) {
         clientShoot(tokenParser);
         mMonkeyServer->sendMessage(mClientId, "SHOOT,OK");
+        mState->mLastSimulationResult = SIMULATION_RESULT_NONE;
         mMode = MODE_SIMULATING;
         mState->mLastTicks = SDL_GetTicks();
       }
@@ -137,15 +138,15 @@ namespace BananaToss {
   }
 
   void Controller::sendTargetInfo() {
-    if (!mState->mTargets[0].active) {
-      // TODO: this seems like a bad way to do this ...
-      return;
-    }
-
     Tokenizer* tokenizer = mMonkeyServer->getTokenizer();
     tokenizer->addString(TOKEN_TARGET);
-    tokenizer->addFloat(mState->mTargets[0].pos.x);
-    tokenizer->addFloat(mState->mTargets[0].pos.y);
+    if (!mState->mTargets[0].active) {
+      tokenizer->addString("NONE");
+    }
+    else {
+      tokenizer->addFloat(mState->mTargets[0].pos.x);
+      tokenizer->addFloat(mState->mTargets[0].pos.y);
+    }
     mMonkeyServer->sendMessage(mClientId, tokenizer->getMessage());
   }
 
@@ -261,8 +262,8 @@ namespace BananaToss {
     ++mState->mTotalShots;
 
     projectile->active = true;
-    projectile->pos.x = 16;
-    projectile->pos.y = 16;
+    projectile->pos.x = 0; //16;
+    projectile->pos.y = 0; //16;
     projectile->vel.x = force * cos(angle);
     projectile->vel.y = force * sin(angle);
   }

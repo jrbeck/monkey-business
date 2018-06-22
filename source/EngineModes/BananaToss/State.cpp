@@ -11,7 +11,7 @@ namespace BananaToss {
   {
     mProjectiles = new Projectile[NUM_PROJECTILES];
     mTargets = new Target[NUM_TARGETS];
-    mPseudoRandom = new PseudoRandom();
+    mPseudoRandom = new PseudoRandom(SDL_GetTicks());
 
     reset();
   }
